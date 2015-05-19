@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="uNet2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\GitHub\build\uNet2.dll</HintPath>
+      <HintPath>..\build\uNet2.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
