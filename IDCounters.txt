@@ -1,0 +1,16 @@
+Operations: 1:
+
+-1 = Plugin synchronization operation
+0 = Basic information operation
+1 = Process manager operation
+
+Packets: 3
+
+-1 = Fetch plugin metadata packet
+0 = Basic system information init packet
+1 = Basic system information packet
+2 = Connection management packet
+3 = Ping packet
+4 = Refresh processes packet
+5 = Process information packet
+6 = Kill process packet
