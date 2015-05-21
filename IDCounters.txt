@@ -14,3 +14,4 @@ Packets: 3
 4 = Refresh processes packet
 5 = Process information packet
 6 = Kill process packet
+7 = Start process packet

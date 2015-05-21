@@ -38,7 +38,7 @@ namespace uRAT.Server.Plugin.Synchronization
                     }
                     SendPacket(pluginActionPacket);
                 }
-                else if (mdPacket.PluginList.Count != Globals.PluginAggregator.LoadedRemotePlugins.Count)
+                else if (mdPacket.PluginList.Count != Globals.PluginAggregator.LoadedRemotePlugins.Count(p => p.AssociatedServerPluginHost.Enabled))
                 {
                     var pluginActionPacket = new PluginActionPacket();
                     foreach (var localPlugin in Globals.PluginAggregator.LoadedRemotePlugins)
@@ -81,12 +81,14 @@ namespace uRAT.Server.Plugin.Synchronization
                 }
 
                 // Client has a plugin we don't, remove it
-                if (localPlugin == null)
+                if (localPlugin == null || !localPlugin.AssociatedServerPluginHost.Enabled)
                 {
                     pluginActionPacket.Actions.Add(new PluginActionPacket.PluginActionData
                     {
                         Action = PluginActionPacket.PluginAction.Remove,
-                        PluginGuid = remotePlugin.PluginGuid
+                        PluginGuid = remotePlugin.PluginGuid,
+                        IntegrityHash = new byte[16],
+                        PluginData = new byte[] {0}
                     });
                 }
                 else if (!localPlugin.Hash.SequenceEquals(remotePlugin.IntegrityHash))

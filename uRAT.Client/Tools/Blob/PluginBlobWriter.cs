@@ -42,6 +42,13 @@ namespace uRAT.Client.Tools.Blob
             _md.PluginTable.Add(plugin.PluginGuid, plugin);
         }
 
+        public void ReplacePlugin(Guid pluginGuid, BlobClientPlugin newPlugin)
+        {
+            if (!_md.PluginTable.ContainsKey(pluginGuid))
+                return;
+            _md.PluginTable[pluginGuid] = newPlugin;
+        }
+
         public void RemovePlugin(Guid pluginGuid)
         {
             if (!_md.PluginTable.ContainsKey(pluginGuid))

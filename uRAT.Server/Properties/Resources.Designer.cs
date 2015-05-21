@@ -59,5 +59,17 @@ namespace uRAT.Server.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///ping -n 3 127.0.0.1 &gt; nul
+        ///start uRAT.Server.exe
+        ///start /b &quot;&quot; cmd /c del &quot;%~f0&quot;&amp;exit /b.
+        /// </summary>
+        internal static string RestartBatchScript {
+            get {
+                return ResourceManager.GetString("RestartBatchScript", resourceCulture);
+            }
+        }
     }
 }

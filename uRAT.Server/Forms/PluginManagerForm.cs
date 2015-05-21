@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -11,6 +13,8 @@ namespace uRAT.Server.Forms
 {
     public partial class PluginManagerForm : Form
     {
+        private string _origData;
+
         public PluginManagerForm()
         {
             InitializeComponent();
@@ -19,6 +23,7 @@ namespace uRAT.Server.Forms
         private void PluginManager_Load(object sender, EventArgs e)
         {
             PopulatePluginList();
+            _origData = GetCheckedItemsString();
         }
 
         private void PopulatePluginList()
@@ -51,8 +56,33 @@ namespace uRAT.Server.Forms
             {
                 Globals.PluginAggregator.LoadedPlugins.First(p => p.PluginHostGuid == (Guid) lvItm.Tag).Enabled =
                     lvItm.Checked;
-
             }
+            if (_origData != GetCheckedItemsString())
+            {
+                var result =
+                    MessageBox.Show(
+                        "In order for the changes to take effect uRAT needs to be restarted. Do you wish to restart now?",
+                        "Apply changes", MessageBoxButtons.YesNoCancel);
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        File.WriteAllText("restart.bat", Properties.Resources.RestartBatchScript);
+                        Process.Start("restart.bat");
+                        Application.Exit();
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                }
+            }
+        }
+
+        string GetCheckedItemsString()
+        {
+            var str = new StringBuilder();
+            foreach (ListViewItem itm in listView1.Items)
+                str.Append(itm.Checked ? "1" : "0");
+            return str.ToString();
         }
     }
 }

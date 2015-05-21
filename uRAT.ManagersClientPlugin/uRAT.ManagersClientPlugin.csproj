@@ -45,6 +45,7 @@
     <Compile Include="ProcessManager\Packets\KillProcessPacket.cs" />
     <Compile Include="ProcessManager\Packets\ProcessInformationPacket.cs" />
     <Compile Include="ProcessManager\Packets\RefreshProcessesPacket.cs" />
+    <Compile Include="ProcessManager\Packets\StartProcessPacket.cs" />
     <Compile Include="ProcessManager\ProcessManagerPlugin.cs" />
     <Compile Include="ProcessManager\Tools\ProcessesHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

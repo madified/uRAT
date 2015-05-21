@@ -76,7 +76,7 @@ namespace uRAT.CorePlugin.BasicSystemInformation
             _connectionList = UiServiceProvider.GetService("ConnectionList") as ConnectionListService;
             if (_connectionList != null)
             {
-                var item = _connectionList.FindItem(itm => Equals(itm.AssociatedPeer.Identity, e.Peer.Identity));
+                var item = _connectionList.FindItem(itm => itm != null && Equals(itm.AssociatedPeer.Identity, e.Peer.Identity));
                 _connectionList.RemoveItem(item);
             }
         }

