@@ -14,14 +14,18 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Packets
             get { return 7; }
         }
 
+        public string Filename { get; set; }
+        public bool NoWindow { get; set; }
+
         public void SerializeTo(Stream stream)
         {
-
         }
 
         public void DeserializeFrom(Stream stream)
         {
-    
+            var br = new BinaryReader(stream);
+            Filename = br.ReadString();
+            NoWindow = br.ReadBoolean();
         }
     }
 }

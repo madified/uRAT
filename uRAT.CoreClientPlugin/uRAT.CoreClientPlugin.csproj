@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,10 @@
     <Compile Include="ConnectionPing\ConnectionPingPlugin.cs" />
     <Compile Include="ConnectionPing\Packets\ConnectionPingPacket.cs" />
     <Compile Include="CorePluginHost.cs" />
+    <Compile Include="ExtendedSystemInformation\ExtendedSystemInformationPlugin.cs" />
+    <Compile Include="ExtendedSystemInformation\Operations\ExtendedInformationOperation.cs" />
+    <Compile Include="ExtendedSystemInformation\Packets\FetchExtendedInformationPacket.cs" />
+    <Compile Include="Tools\GeoIpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\SystemInformationHelper.cs" />
   </ItemGroup>

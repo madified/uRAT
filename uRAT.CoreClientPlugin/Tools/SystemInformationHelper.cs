@@ -1,7 +1,9 @@
 ﻿// http://www.csharp411.com/wp-content/uploads/2009/01/OSInfo.cs
 
 using System;
+using System.Management;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace uRAT.CoreClientPlugin.Tools
 {
@@ -591,5 +593,40 @@ namespace uRAT.CoreClientPlugin.Tools
         }
         #endregion REVISION
         #endregion VERSION
+
+        public static bool IsAdministrator()
+        {
+            return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
+                    .IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        public static string FetchInstalledAntivirus()
+        {
+            var searcher = new ManagementObjectSearcher("root\\SecurityCenter2", "SELECT * FROM AntivirusProduct");
+            var objects = searcher.Get();
+
+            if (objects.Count == 0)
+                return "None";
+            return "placeholder";
+        }
+
+        public static string FetchInstalledFirewall()
+        {
+            var searcher = new ManagementObjectSearcher("root\\SecurityCenter2", "SELECT * FROM FirewallProduct");
+            var objects = searcher.Get();
+
+            if (objects.Count == 0)
+                return "None";
+            return "placeholder";
+        }
+
+        [DllImport("Kernel32.dll")]
+        private static extern long GetTickCount64();
+
+        public static TimeSpan GetSystemRunningTime()
+        {
+            return TimeSpan.FromMilliseconds(GetTickCount64());
+
+        }
     }
 }

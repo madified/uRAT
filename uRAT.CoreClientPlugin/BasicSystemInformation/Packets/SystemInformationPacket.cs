@@ -29,7 +29,7 @@ namespace uRAT.CoreClientPlugin.BasicSystemInformation.Packets
             ComputerName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             var rawStr = new WebClient().DownloadString("http://ip-api.com/csv");
             CountryCode = string.Concat(rawStr.Split(',')[1], " (", rawStr.Split(',')[2], ")");
-            IsAdmin = IsAdministrator() ? "True" : "False";
+            IsAdmin = SystemInformationHelper.IsAdministrator() ? "True" : "False";
 
             var bw = new BinaryWriter(stream);
             bw.Write(PacketId);
@@ -44,10 +44,6 @@ namespace uRAT.CoreClientPlugin.BasicSystemInformation.Packets
 
         }
 
-        private static bool IsAdministrator()
-        {
-            return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
-                    .IsInRole(WindowsBuiltInRole.Administrator);
-        }     
+ 
     }
 }

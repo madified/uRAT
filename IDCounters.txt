@@ -3,6 +3,7 @@ Operations: 1:
 -1 = Plugin synchronization operation
 0 = Basic information operation
 1 = Process manager operation
+2 = Extended information operation
 
 Packets: 3
 
@@ -15,3 +16,4 @@ Packets: 3
 5 = Process information packet
 6 = Kill process packet
 7 = Start process packet
+8 = Fetch extended information packet

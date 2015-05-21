@@ -6,16 +6,16 @@ using System.Windows.Forms;
 using uNet2.Channel.Events;
 using uNet2.Packet;
 using uNet2.Packet.Events;
-using uRAT.ManagersPlugin.ProcessManager.Forms;
-using uRAT.ManagersPlugin.ProcessManager.Operations;
-using uRAT.ManagersPlugin.ProcessManager.Packets;
+using uRAT.CorePlugin.ExtendedSystemInformation.Forms;
+using uRAT.CorePlugin.ExtendedSystemInformation.Operations;
+using uRAT.CorePlugin.ExtendedSystemInformation.Packets;
 using uRAT.Server.Plugin.Server;
 using uRAT.Server.Plugin.UIService;
 using uRAT.Server.Plugin.UIService.Services;
 
-namespace uRAT.ManagersPlugin.ProcessManager
+namespace uRAT.CorePlugin.ExtendedSystemInformation
 {
-    class ProcessManagerPlugin : IServerPlugin
+    class ExtendedSystemInformationPlugin : IServerPlugin
     {
         public string MenuTitle
         {
@@ -28,10 +28,7 @@ namespace uRAT.ManagersPlugin.ProcessManager
             {
                 return new List<IPacket>
                 {
-                    new RefreshProcessesPacket(),
-                    new ProcessInformationPacket(),
-                    new KillProcessPacket(),
-                    new StartProcessPacket()
+                    new FetchExtendedInformationPacket()
                 };
             }
         }
@@ -39,35 +36,38 @@ namespace uRAT.ManagersPlugin.ProcessManager
         public void Initialize()
         {
             var connectionList = UiServiceProvider.GetService("ConnectionList") as ConnectionListService;
-            var tsItm = new ToolStripMenuItem("Process manager");
+            var tsItm = new ToolStripMenuItem("System information");
             tsItm.Click += tsItm_Click;
-            connectionList.AddContextMenuItem(tsItm);
+            if (connectionList != null) 
+                connectionList.AddContextMenuItem(tsItm);
         }
 
         void tsItm_Click(object sender, EventArgs e)
         {
             var connectionList = UiServiceProvider.GetService("ConnectionList") as ConnectionListService;
-            connectionList.GetSelectedItems().ForEach(itm =>
+            foreach (var itm in connectionList.GetSelectedItems())
             {
-                var op = itm.AssociatedChannel.CreateOperation<ProcessManagerOperation>(itm.AssociatedPeer.Identity.Guid);
-                new ProcessManagerForm(itm.SubItems[0].Text, op).Show();
-            });
+                var op =
+                    itm.AssociatedChannel.CreateOperation<ExtendedInformationOperation>(itm.AssociatedPeer.Identity.Guid);
+                var extInfoFrm = new ExtendedInformationForm(op);
+                extInfoFrm.Show();
+            }
         }
 
 
-        public void OnPacketReceived(ServerPacketEventArgs e)
+        public void OnPeerConnected(ChannelEventArgs e)
         {
 
         }
 
         public void OnPeerDisconnected(ChannelEventArgs e)
         {
-
+ 
         }
 
-        public void OnPeerConnected(ChannelEventArgs e)
+        public void OnPacketReceived(ServerPacketEventArgs e)
         {
-
+         
         }
     }
 }

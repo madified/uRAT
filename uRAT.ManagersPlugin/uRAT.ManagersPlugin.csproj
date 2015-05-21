@@ -49,10 +49,17 @@
       <DependentUpon>ProcessManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ManagersPluginHost.cs" />
+    <Compile Include="ProcessManager\Forms\StartProcessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcessManager\Forms\StartProcessForm.Designer.cs">
+      <DependentUpon>StartProcessForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProcessManager\Operations\ProcessManagerOperation.cs" />
     <Compile Include="ProcessManager\Packets\KillProcessPacket.cs" />
     <Compile Include="ProcessManager\Packets\ProcessInformationPacket.cs" />
     <Compile Include="ProcessManager\Packets\RefreshProcessesPacket.cs" />
+    <Compile Include="ProcessManager\Packets\StartProcessPacket.cs" />
     <Compile Include="ProcessManager\ProcessManagerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\PrefixConverter.cs" />
@@ -70,6 +77,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ProcessManager\Forms\ProcessManagerForm.resx">
       <DependentUpon>ProcessManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessManager\Forms\StartProcessForm.resx">
+      <DependentUpon>StartProcessForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

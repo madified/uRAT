@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using uNet2.Channel.Events;
 using uNet2.Packet;
 using uNet2.Packet.Events;
 using uNet2.SocketOperation;
 using uRAT.Client.Plugin.Client;
-using uRAT.ManagersClientPlugin.ProcessManager.Operations;
-using uRAT.ManagersClientPlugin.ProcessManager.Packets;
+using uRAT.CoreClientPlugin.ExtendedSystemInformation.Operations;
+using uRAT.CoreClientPlugin.ExtendedSystemInformation.Packets;
 
-namespace uRAT.ManagersClientPlugin.ProcessManager
+namespace uRAT.CoreClientPlugin.ExtendedSystemInformation
 {
-    class ProcessManagerPlugin : IClientPlugin
+    internal class ExtendedSystemInformationPlugin : IClientPlugin
     {
         public List<IPacket> PluginPackets
         {
@@ -17,10 +18,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager
             {
                 return new List<IPacket>
                 {
-                    new RefreshProcessesPacket(),
-                    new ProcessInformationPacket(),
-                    new KillProcessPacket(),
-                    new StartProcessPacket()
+                   new FetchExtendedInformationPacket()
                 };
             }
         }
@@ -31,7 +29,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager
             {
                 return new List<ISocketOperation>
                 {
-                    new ProcessManagerOperation()
+                    new ExtendedInformationOperation()
                 };
             }
         }
@@ -48,7 +46,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager
 
         public void OnPacketReceived(object sender, ClientPacketEventArgs e)
         {
-
+     
         }
     }
 }

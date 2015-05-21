@@ -51,6 +51,16 @@
     <Compile Include="ConnectionPing\ConnectionPingPlugin.cs" />
     <Compile Include="ConnectionPing\Packets\ConnectionPingPacket.cs" />
     <Compile Include="CorePluginHost.cs" />
+    <Compile Include="ExtendedSystemInformation\ExtendedSystemInformationPlugin.cs" />
+    <Compile Include="ExtendedSystemInformation\Forms\ExtendedInformationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExtendedSystemInformation\Forms\ExtendedInformationForm.Designer.cs">
+      <DependentUpon>ExtendedInformationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtendedSystemInformation\Operations\ExtendedInformationOperation.cs" />
+    <Compile Include="ExtendedSystemInformation\Packets\FetchExtendedInformationPacket.cs" />
+    <Compile Include="ExtendedSystemInformation\Tools\WMIHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +78,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="ExtendedSystemInformation\Forms\ExtendedInformationForm.resx">
+      <DependentUpon>ExtendedInformationForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

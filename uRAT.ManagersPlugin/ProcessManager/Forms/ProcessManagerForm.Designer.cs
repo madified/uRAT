@@ -31,14 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.stopProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +49,7 @@
             this.columnHeader3});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
@@ -62,6 +62,15 @@
             // 
             this.columnHeader1.Text = "Name";
             this.columnHeader1.Width = 188;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "PID";
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Memory Usage";
+            this.columnHeader3.Width = 129;
             // 
             // contextMenuStrip1
             // 
@@ -82,22 +91,15 @@
             // 
             // startProcessToolStripMenuItem
             // 
-            this.startProcessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1});
             this.startProcessToolStripMenuItem.Name = "startProcessToolStripMenuItem";
-            this.startProcessToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.startProcessToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.startProcessToolStripMenuItem.Text = "Start process";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            this.startProcessToolStripMenuItem.Click += new System.EventHandler(this.startProcessToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // refreshToolStripMenuItem
             // 
@@ -105,15 +107,6 @@
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "PID";
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Memory Usage";
-            this.columnHeader3.Width = 129;
             // 
             // ProcessManagerForm
             // 
@@ -137,7 +130,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem stopProcessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startProcessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader columnHeader2;
