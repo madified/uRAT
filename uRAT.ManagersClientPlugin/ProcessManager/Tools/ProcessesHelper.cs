@@ -14,18 +14,18 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Tools
             public string ProcessName { get; set; }
             public int Pid { get; set; }
             public bool IsThis { get; set; }
-            public long MemUsage { get; set; }
+            public string WindowName { get; set; }
 
             public HighLevelProcess()
             {
             }
 
-            public HighLevelProcess(string processName, int pid, bool isThis, long memUsage)
+            public HighLevelProcess(string processName, int pid, bool isThis, string windowName)
             {
                 ProcessName = processName;
                 Pid = pid;
                 IsThis = isThis;
-                MemUsage = memUsage;
+                WindowName = windowName;
             }
         }
 
@@ -80,7 +80,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Tools
                     proc.ProcessName + ".exe",
                     proc.Id,
                     proc.Id == Process.GetCurrentProcess().Id,
-                    proc.WorkingSet64
+                    proc.MainWindowTitle
                     );
             }
         }

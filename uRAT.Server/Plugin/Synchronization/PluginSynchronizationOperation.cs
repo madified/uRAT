@@ -87,7 +87,7 @@ namespace uRAT.Server.Plugin.Synchronization
                     {
                         Action = PluginActionPacket.PluginAction.Remove,
                         PluginGuid = remotePlugin.PluginGuid,
-                        IntegrityHash = new byte[16],
+                        IntegrityHash = new byte[32],
                         PluginData = new byte[] {0}
                     });
                 }

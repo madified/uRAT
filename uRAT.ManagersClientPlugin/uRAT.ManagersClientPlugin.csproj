@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,9 +47,12 @@
     <Compile Include="ProcessManager\Packets\KillProcessPacket.cs" />
     <Compile Include="ProcessManager\Packets\ProcessInformationPacket.cs" />
     <Compile Include="ProcessManager\Packets\RefreshProcessesPacket.cs" />
+    <Compile Include="ProcessManager\Packets\RefreshServicesPacket.cs" />
+    <Compile Include="ProcessManager\Packets\ServiceInformationPacket.cs" />
     <Compile Include="ProcessManager\Packets\StartProcessPacket.cs" />
     <Compile Include="ProcessManager\ProcessManagerPlugin.cs" />
     <Compile Include="ProcessManager\Tools\ProcessesHelper.cs" />
+    <Compile Include="ProcessManager\Tools\ServicesHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

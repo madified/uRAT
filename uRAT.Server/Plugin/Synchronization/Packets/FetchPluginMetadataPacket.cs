@@ -30,7 +30,7 @@ namespace uRAT.Server.Plugin.Synchronization.Packets
             br.ReadInt32();
             var count = br.ReadInt32();
             for (var i = 0; i < count; i++)
-                PluginList.Add(new PluginIntegrityPair(new System.Guid(br.ReadBytes(16)), br.ReadBytes(16)));
+                PluginList.Add(new PluginIntegrityPair(new System.Guid(br.ReadBytes(16)), br.ReadBytes(32)));
             
         }
     }

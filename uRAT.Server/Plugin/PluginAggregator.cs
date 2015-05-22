@@ -125,7 +125,7 @@ namespace uRAT.Server.Plugin
                 var fileBuff = File.ReadAllBytes(file);
                  var asm = Assembly.LoadFile(file);
                 var attribute = (GuidAttribute)asm.GetCustomAttributes(typeof(GuidAttribute), true)[0];
-                var remotePlugin = new RemoteClientPlugin(file, fileBuff, HashHelper.CalculateMd5(fileBuff))
+                var remotePlugin = new RemoteClientPlugin(file, fileBuff, HashHelper.CalculateSha256(fileBuff))
                 {
                     PluginGuid = new Guid(attribute.Value)
                 };
