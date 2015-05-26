@@ -1,0 +1,6 @@
+version: 1.0.{build}
+build:
+  verbosity: detailed
+install:
+  git submodule update --init --recursive
+build_script: C:\projects\urat\uRAT.sln
