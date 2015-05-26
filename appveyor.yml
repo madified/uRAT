@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: v0.{build}-alpha
 build:
   verbosity: detailed
 install:
@@ -12,5 +12,5 @@ deploy:
     auth_token:
       secure: BcgGhxVt2MxGMNGb1MpEbg+kSd2GhEPFnnYBVOrgXq0vsgSPbSclIpxSDG9DnPsy
     on:
-      branch: master
+      branch: test
       appveyor_repo_tag: true
