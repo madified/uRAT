@@ -7,7 +7,7 @@ install:
 build_script: C:\projects\urat\uRAT.sln
 deploy:
   - provider: GitHub
-    artifact: urat\build
+    artifact: build
     draft: false
     prerelease: true
     auth_token:
