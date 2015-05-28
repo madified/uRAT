@@ -12,6 +12,7 @@ deploy:
   - provider: GitHub
     draft: false
     prerelease: true
+    artifact: binaries
     auth_token:
       secure: hja8VUbSzRtmchGX7pZ1TWlyKMqXjAVVU9G3EafwWJQPUMzgeSCknXaviLXacWKz
     on:
