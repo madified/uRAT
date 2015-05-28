@@ -4,7 +4,6 @@ build:
 configuration: Release
 install:
   git submodule update --init --recursive
-build_script: C:\projects\urat\uRAT.sln
 artifacts:
   - path: build
     name: binaries
@@ -17,4 +16,3 @@ deploy:
       secure: hja8VUbSzRtmchGX7pZ1TWlyKMqXjAVVU9G3EafwWJQPUMzgeSCknXaviLXacWKz
     on:
       branch: test
-      appveyor_repo_tag: false
