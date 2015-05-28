@@ -8,6 +8,7 @@ build_script: C:\projects\urat\uRAT.sln
 artifacts:
   - path: uRAT\build
     name: binaries
+    type: zip
 deploy:
   - provider: GitHub
     draft: false
