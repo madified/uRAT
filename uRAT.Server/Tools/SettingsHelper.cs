@@ -130,5 +130,22 @@ namespace uRAT.Server.Tools
         {
             UpdatePlugin(pluginGuid, p => p.Enabled = status);
         }
+
+        public XmlElement QuickRetrieve(string element, int depth = 0, params string[] subElements)
+        {
+            XmlElement outElement;
+            var xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(File.ReadAllText("settings.xml"));
+
+            if (depth == 0)
+                outElement = xmlDocument[element];
+            else
+                outElement = (XmlElement)xmlDocument.GetElementsByTagName(element)[depth];
+
+            for (var i = 0; i < subElements.Length; i++)
+                outElement = outElement[subElements[i]];
+
+            return outElement;
+        }
     }
 }
