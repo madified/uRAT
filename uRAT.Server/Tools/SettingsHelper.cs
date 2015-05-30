@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
+using uRAT.Server.Builder;
+using uRAT.Server.Tools.Extensions;
 
 namespace uRAT.Server.Tools
 {
-    public class SettingsHelper
+    internal class SettingsHelper
     {
         public class PluginMetadata
         {
@@ -21,109 +25,86 @@ namespace uRAT.Server.Tools
 
         public void CreateSettingsFile()
         {
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+            var xmlDoc = new XDocument();
+            var globalRoot = new XElement("doc");
+            var rootElem = new XElement("Plugins");
+            foreach (var pluginHost in Globals.PluginAggregator.LoadedPlugins)
             {
-                Indent = true,
-                IndentChars = "\t",
-                NewLineOnAttributes = true
-            };
-
-
-            using (XmlWriter writer = XmlWriter.Create("settings.xml", xmlWriterSettings))
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("PluginSettings");
-                foreach (var pluginHost in Globals.PluginAggregator.LoadedPlugins)
-                {
-                    writer.WriteStartElement("Plugin");
-
-                    writer.WriteElementString("GUID", pluginHost.PluginHostGuid.ToString());
-                    writer.WriteElementString("Name", pluginHost.PluginHost.Name);
-                    writer.WriteElementString("Author", pluginHost.PluginHost.Author);
-                    writer.WriteElementString("Version", pluginHost.PluginHost.Version.ToString());
-                    writer.WriteElementString("Description", pluginHost.PluginHost.Description);
-                    writer.WriteElementString("Enabled", pluginHost.Enabled ? "True" : "False");
-    
-                    writer.WriteEndElement();
-                }
-
-
-                writer.WriteEndElement();
-
-                writer.WriteEndDocument();
+                var pluginElem =
+                    new XElement("Plugin",
+                        new XAttribute("GUID", pluginHost.PluginHostGuid.ToString()),
+                        new XElement("Name", pluginHost.PluginHost.Name),
+                        new XElement("Author", pluginHost.PluginHost.Author),
+                        new XElement("Version", pluginHost.PluginHost.Version.ToString()),
+                        new XElement("Description", pluginHost.PluginHost.Description),
+                        new XElement("Enabled", pluginHost.Enabled ? "True" : "False")
+                        );
+                rootElem.Add(pluginElem);
             }
+            globalRoot.Add(rootElem);
+            xmlDoc.Add(globalRoot);
+            xmlDoc.Save("settings.xml");
         }
+
+        #region Plugin
 
         public List<PluginMetadata> FetchAllPlugins()
         {
             return FetchAllPluginsImpl().ToList();
         }
 
-        //TODO: optimize..
         public PluginMetadata FetchPlugin(Guid pluginGuid)
         {
-            XmlDocument xmlDocument;
-
-            xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(File.ReadAllText("settings.xml"));
-
-            return (from XmlElement xmlElemenet in xmlDocument.DocumentElement.SelectNodes("Plugin")
-                where xmlElemenet["GUID"].InnerText == pluginGuid.ToString()
-                select new PluginMetadata
-                {
-                    Guid = new Guid(xmlElemenet.GetElementsByTagName("GUID")[0].InnerText),
-                    Name = xmlElemenet.GetElementsByTagName("Name")[0].InnerText,
-                    Author = xmlElemenet.GetElementsByTagName("Author")[0].InnerText,
-                    Version = new Version(xmlElemenet.GetElementsByTagName("Version")[0].InnerText),
-                    Description = xmlElemenet.GetElementsByTagName("Description")[0].InnerText,
-                    Enabled = xmlElemenet.GetElementsByTagName("Enabled")[0].InnerText == "True"
-                }).FirstOrDefault();
-
-            
+            var xmlDoc = XDocument.Load("settings.xml");
+            var elem =
+                xmlDoc.Root
+                    .Element("Plugins").Elements()
+                    .First(e => e.Attribute("GUID").Value == pluginGuid.ToString());
+            var linko = elem.Element("Name");
+            Console.WriteLine(linko);
+            return new PluginMetadata
+            {
+                Guid = pluginGuid,
+                Name = elem.Element("Name").Value,
+                Author = elem.Element("Author").Value,
+                Description = elem.Element("Description").Value,
+                Version = new Version(elem.Element("Version").Value),
+                Enabled = elem.Element("Enabled").Value == "True"
+            };
         }
 
         private IEnumerable<PluginMetadata> FetchAllPluginsImpl()
         {
-            XmlDocument xmlDocument;
-
-            xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(File.ReadAllText("settings.xml"));
-
-            foreach (XmlElement xmlElemenet in
-                xmlDocument.DocumentElement.SelectNodes("Plugin"))
-            {
-                var pluginMd = new PluginMetadata
+            var xmlDoc = XDocument.Load("settings.xml");
+            return xmlDoc.Root
+                .Element("Plugins").Elements().Select(elem => new PluginMetadata
                 {
-                    Guid = new Guid(xmlElemenet.GetElementsByTagName("GUID")[0].InnerText),
-                    Name = xmlElemenet.GetElementsByTagName("Name")[0].InnerText,
-                    Author = xmlElemenet.GetElementsByTagName("Author")[0].InnerText,
-                    Version = new Version(xmlElemenet.GetElementsByTagName("Version")[0].InnerText),
-                    Description = xmlElemenet.GetElementsByTagName("Description")[0].InnerText,
-                    Enabled = xmlElemenet.GetElementsByTagName("Enabled")[0].InnerText == "True"
-                };
-                
-                yield return pluginMd;
-            }
+                    Guid = new Guid(elem.Attribute("GUID").Value),
+                    Name = elem.Element("Name").Value,
+                    Author = elem.Element("Author").Value,
+                    Description = elem.Element("Description").Value,
+                    Version = new Version(elem.Element("Version").Value),
+                    Enabled = elem.Element("Enabled").Value == "True"
+                });
         }
 
         public void UpdatePlugin(Guid pluginGuid, Action<PluginMetadata> action)
         {
+            var xmlDoc = XDocument.Load("settings.xml");
+            var elem =
+                xmlDoc.Element("PluginSettings")
+                    .Element("Plugins").Elements()
+                    .First(e => e.Attribute("GUID").Value == pluginGuid.ToString());
             var pluginMd = FetchPlugin(pluginGuid);
             action(pluginMd);
 
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(File.ReadAllText("settings.xml"));
-            foreach (XmlElement xmlElement in xmlDocument.GetElementsByTagName("Plugin"))
-            {
-                if (xmlElement["GUID"].InnerText != pluginGuid.ToString())
-                    continue;
-                xmlElement["Name"].InnerText = pluginMd.Name;
-                xmlElement["Author"].InnerText = pluginMd.Author;
-                xmlElement["Version"].InnerText = pluginMd.Version.ToString();
-                xmlElement["Description"].InnerText = pluginMd.Description;
-                xmlElement["Enabled"].InnerText = pluginMd.Enabled ? "True" : "False";
-            }
-            xmlDocument.Save("settings.xml");
+            elem.Element("Name").Value = pluginMd.Name;
+            elem.Element("Author").Value = pluginMd.Author;
+            elem.Element("Version").Value = pluginMd.Version.ToString();
+            elem.Element("Description").Value = pluginMd.Description;
+            elem.Element("Enabled").Value = pluginMd.Enabled ? "True" : "False";
+
+            xmlDoc.Save("settings.xml");
         }
 
         public void TogglePluginStatus(Guid pluginGuid, bool status)
@@ -131,21 +112,97 @@ namespace uRAT.Server.Tools
             UpdatePlugin(pluginGuid, p => p.Enabled = status);
         }
 
-        public XmlElement QuickRetrieve(string element, int depth = 0, params string[] subElements)
+        #endregion
+
+        #region Builder
+        public void CreateBuilderProfile(string name, BuildSettings settings)
         {
-            XmlElement outElement;
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(File.ReadAllText("settings.xml"));
-
-            if (depth == 0)
-                outElement = xmlDocument[element];
+            var xmlDoc = XDocument.Load("settings.xml", LoadOptions.None);
+            if (xmlDoc.Root.Elements().FirstOrDefault(e => e.Name == "BuilderProfiles") == null)
+            {
+                var rootElem = new XElement("BuilderProfiles");
+                var profile =
+                    new XElement("Profile",
+                        new XAttribute("Name", name),
+                        new XElement("Hostname", settings.Hostname),
+                        new XElement("Port", settings.Port.ToString()),
+                        new XElement("ReconnectDelay", settings.ReconnectDelay.ToString()),
+                        new XElement("InstallationPath", ((int) settings.InstallationPath).ToString()),
+                        new XElement("Filename", settings.Filename),
+                        new XElement("MergeDependencies", settings.MergeDependencies ? "True" : "False")
+                        );
+                        
+                rootElem.Add(profile);
+                xmlDoc.Root.Add(rootElem);
+            }
             else
-                outElement = (XmlElement)xmlDocument.GetElementsByTagName(element)[depth];
+            {
+                var profile =
+                    new XElement("Profile",
+                        new XAttribute("Name", name),
+                        new XElement("Hostname", settings.Hostname),
+                        new XElement("Port", settings.Port.ToString()),
+                        new XElement("ReconnectDelay", settings.ReconnectDelay.ToString()),
+                        new XElement("InstallationPath", ((int) settings.InstallationPath).ToString()),
+                        new XElement("Filename", settings.Filename),
+                        new XElement("MergeDependencies", settings.MergeDependencies ? "True" : "False")
+                        );
+                xmlDoc.Root.Element("BuilderProfiles").Add(profile);
+            }
 
-            for (var i = 0; i < subElements.Length; i++)
-                outElement = outElement[subElements[i]];
-
-            return outElement;
+            xmlDoc.Save("settings.xml");
         }
+
+        public List<string> FetchAllBuilderProfiles()
+        {
+            var xmlDoc = XDocument.Load("settings.xml", LoadOptions.None);
+            if (xmlDoc.Root.Elements().FirstOrDefault(e => e.Name == "BuilderProfiles") == null)
+                return new List<string>();
+            return FetchAllBuilderProfilesImpl().ToList();
+        }
+
+        public BuildSettings FetchBuilderProfile(string name)
+        {
+            var xmlDoc = XDocument.Load("settings.xml");
+            var elem =
+                xmlDoc.Root.Element("BuilderProfiles").Elements()
+                    .First(e => e.Attribute("Name").Value == name);
+            return new BuildSettings
+            {
+                Filename = elem.Element("Filename").Value,
+                Hostname = elem.Element("Hostname").Value,
+                InstallationPath = (InstallationPath) Int32.Parse(elem.Element("InstallationPath").Value),
+                Port = Int32.Parse(elem.Element("Port").Value),
+                ReconnectDelay = Int32.Parse(elem.Element("ReconnectDelay").Value),
+                MergeDependencies = elem.Element("MergeDependencies").Value == "True"
+            };
+        }
+
+        public void UpdateBuilderProfile(string name, Action<BuildSettings> action)
+        {
+            var xmlDoc = XDocument.Load("settings.xml");
+            var elem =
+                xmlDoc.Root.Element("BuilderProfiles").Elements()
+                    .First(e => e.Attribute("Name").Value == name);
+            var settings = FetchBuilderProfile(name);
+            action(settings);
+
+            elem.Element("Hostname").Value = settings.Hostname;
+            elem.Element("Port").Value = settings.Port.ToString();
+            elem.Element("ReconnectDelay").Value = settings.ReconnectDelay.ToString();
+            elem.Element("InstallationPath").Value = ((int)settings.InstallationPath).ToString();
+            elem.Element("Filename").Value = settings.Filename;
+            elem.Element("MergeDependencies").Value = settings.MergeDependencies ? "True" : "False";
+
+            xmlDoc.Save("settings.xml");
+        }
+
+        private static IEnumerable<string> FetchAllBuilderProfilesImpl()
+        {
+            var xmlDoc = XDocument.Load("settings.xml", LoadOptions.None);
+            return xmlDoc.Root.Element("BuilderProfiles").Elements().Select(elem => elem.Attribute("Name").Value);
+        }
+
+        #endregion
     }
 }

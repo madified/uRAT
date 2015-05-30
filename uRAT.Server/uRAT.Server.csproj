@@ -111,6 +111,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\HashHelper.cs" />
+    <Compile Include="Tools\PromptDialog.cs" />
+    <Compile Include="Tools\ResourcesHelper.cs" />
     <Compile Include="Tools\ServerPool.cs" />
     <Compile Include="Tools\SettingsHelper.cs" />
     <EmbeddedResource Include="Forms\AddSocketForm.resx">
@@ -153,6 +155,9 @@
       <Project>{fdfc8179-feea-42d0-add9-d31017c71414}</Project>
       <Name>uNet2</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ILMerge.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

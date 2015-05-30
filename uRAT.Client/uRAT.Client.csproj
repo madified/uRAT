@@ -8,7 +8,8 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>uRAT.Client</RootNamespace>
-    <AssemblyName>uRAT.Client</AssemblyName>
+    <AssemblyName Condition="'$(Configuration)'=='Debug'">uRAT.Client.exe</AssemblyName>
+    <AssemblyName Condition="'$(Configuration)'=='Release'">stub.exe</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -27,7 +28,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\build\Client\</OutputPath>
+    <AssemblyName>stub</AssemblyName>
+    <OutputPath>..\build\server\resources\builder\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
