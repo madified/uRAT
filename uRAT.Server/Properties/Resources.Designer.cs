@@ -61,6 +61,16 @@ namespace uRAT.Server.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ILMerge {
+            get {
+                object obj = ResourceManager.GetObject("ILMerge", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to @echo off
         ///ping -n 3 127.0.0.1 &gt; nul
         ///start uRAT.Server.exe

@@ -41,5 +41,10 @@ namespace uRAT.Server.Forms
         {
             new SettingsForm().Show();
         }
+
+        private void buildToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new BuildClientForm().ShowDialog();
+        }
     }
 }
