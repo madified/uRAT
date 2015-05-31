@@ -37,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtHostname = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbMerge = new System.Windows.Forms.CheckBox();
             this.cbPath = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
             this.cbProfile = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.cbMerge = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
@@ -167,6 +167,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Installation";
             // 
+            // cbMerge
+            // 
+            this.cbMerge.AutoSize = true;
+            this.cbMerge.Location = new System.Drawing.Point(149, 173);
+            this.cbMerge.Name = "cbMerge";
+            this.cbMerge.Size = new System.Drawing.Size(126, 17);
+            this.cbMerge.TabIndex = 5;
+            this.cbMerge.Text = "Merge dependencies";
+            this.cbMerge.UseVisualStyleBackColor = true;
+            // 
             // cbPath
             // 
             this.cbPath.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -259,7 +269,7 @@
             this.cbProfile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbProfile.FormattingEnabled = true;
             this.cbProfile.Items.AddRange(new object[] {
-            "<Create new...>"});
+            ""});
             this.cbProfile.Location = new System.Drawing.Point(87, 22);
             this.cbProfile.Name = "cbProfile";
             this.cbProfile.Size = new System.Drawing.Size(188, 21);
@@ -284,18 +294,6 @@
             this.button3.Text = "Save profile";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // cbMerge
-            // 
-            this.cbMerge.AutoSize = true;
-            this.cbMerge.Checked = true;
-            this.cbMerge.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMerge.Location = new System.Drawing.Point(149, 173);
-            this.cbMerge.Name = "cbMerge";
-            this.cbMerge.Size = new System.Drawing.Size(126, 17);
-            this.cbMerge.TabIndex = 5;
-            this.cbMerge.Text = "Merge dependencies";
-            this.cbMerge.UseVisualStyleBackColor = true;
             // 
             // BuildClientForm
             // 
